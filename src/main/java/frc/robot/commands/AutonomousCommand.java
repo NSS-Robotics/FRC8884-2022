@@ -4,37 +4,45 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.OldArmSubsystem;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.OldArmSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class ArmCommand extends CommandBase {
+public class AutonomousCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final OldArmSubsystem m_subsystem;
-  private Spark m_motor;
+  private final OldArmSubsystem m_armSubsystem;
+  private final DriveSubsystem m_driveSubsystem;
+  protected Timer m_timer = new Timer();
 
   /**
    * Creates a new ExampleCommand.
    *
-   * @param subsystem The subsystem used by this command.
    */
-  public ArmCommand(OldArmSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public AutonomousCommand(OldArmSubsystem armSubsystem, DriveSubsystem driveSubsystem) {
+    m_armSubsystem = armSubsystem;
+    m_driveSubsystem = driveSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(armSubsystem, driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    this.m_motor = new Spark(1);
+    m_timer.reset();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.m_motor.set(0.5);
+    // Drive for 2 seconds
+    if (m_timer.get() < 2.0) {
+      m_driveSubsystem.arcadeDrive(0.5, 0.0);
+    } else {
+      m_driveSubsystem.stopMotor();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -44,6 +52,6 @@ public class ArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_timer.get() > 2.0;
   }
 }

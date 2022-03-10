@@ -5,14 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,24 +15,8 @@ import edu.wpi.first.wpilibj.Timer;
  * project.
  */
 public class Robot extends TimedRobot {
-
-  // Left motors
-  private final CANSparkMax m_frontLeft = new CANSparkMax(4, MotorType.kBrushless);
-  private final CANSparkMax m_rearLeft = new CANSparkMax(1, MotorType.kBrushless);
-  MotorControllerGroup m_left = new MotorControllerGroup(m_frontLeft, m_rearLeft);
-
-  // Right motors
-  private final CANSparkMax m_frontRight = new CANSparkMax(2, MotorType.kBrushless);
-  private final CANSparkMax m_rearRight = new CANSparkMax(9, MotorType.kBrushless);
-  MotorControllerGroup m_right = new MotorControllerGroup(m_frontRight, m_rearRight);
-
-  // Arm
-  private final CANSparkMax m_arm = new CANSparkMax(11, MotorType.kBrushless);
-
-  private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
-
-  // Joystick
-  private final XboxController m_controller = new XboxController(0);
+  private RobotContainer m_container;
+  private Command m_autonomousCommand = null;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -49,7 +27,7 @@ public class Robot extends TimedRobot {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
-    m_right.setInverted(true);
+    m_container = new RobotContainer();
   }
 
   /**
@@ -77,27 +55,31 @@ public class Robot extends TimedRobot {
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    m_autonomousCommand = m_container.getAutonomousCommand();
+
+    // schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
+  }
 
   @Override
   public void autonomousPeriodic() {
-    this.m_frontLeft.set(0.3);
-    this.m_rearLeft.set(0.3);
   }
 
   /** This function is called once each time the robot enters teleoperated mode. */
   @Override
   public void teleopInit() {
-    m_drive.setMaxOutput(0.7);
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
   }
 
 
   /** This function is called periodically during teleoperated mode. */
   @Override
-  public void teleopPeriodic() {
-    m_drive.tankDrive(-m_controller.getLeftY(), -m_controller.getRightY());
-//     m_drive.arcadeDrive(-m_controller.getRawAxis(0), m_controller.getRawAxis(1));
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void testInit() {
