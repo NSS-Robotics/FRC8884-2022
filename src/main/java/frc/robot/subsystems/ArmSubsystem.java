@@ -2,29 +2,57 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ArmSubsystem extends edu.wpi.first.wpilibj2.command.PIDSubsystem {
+public class ArmSubsystem extends SubsystemBase {
     private final CANSparkMax m_motor = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private final RelativeEncoder m_encoder = m_motor.getEncoder();
 
-    static final double kP = 0;
-    static final double kI = 0;
-    static final double kD = 0;
+    boolean shouldGo = false;
+    boolean isUp = false;
+    int numRan = 0;
+    Timer timer = new Timer();
 
     public ArmSubsystem() {
-        super(new PIDController(kP, kI, kD));
+        m_motor.burnFlash();
+    }
+
+    public void down() {
+        shouldGo = true;
+        isUp = false;
+    }
+
+    public void up() {
+        shouldGo = true;
+        isUp = true;
     }
 
     @Override
-    protected void useOutput(double output, double setpoint) {
-//        m_encoder.setPositionConversionFactor();
-//        m_motor.getPIDController().setv
-    }
+    public void periodic() {
+        if (!shouldGo) return;
 
-    @Override
-    protected double getMeasurement() {
-        return 0;
+        timer.start();
+
+        System.out.printf("Num ran: %s\n", numRan);
+
+        numRan++;
+
+        if (numRan < 50) {
+            if (isUp) {
+                m_motor.set(0.1);
+            } else {
+                m_motor.set(-0.1);
+            }
+        }
+
+        if (numRan >= 50) {
+            isUp = !isUp;
+            shouldGo = false;
+
+            numRan = 0;
+
+            m_motor.set(0);
+        }
+
     }
 }

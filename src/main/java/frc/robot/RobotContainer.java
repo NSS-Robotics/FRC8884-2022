@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutonomousCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.OldArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -21,9 +22,10 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final OldArmSubsystem m_robotArm = new OldArmSubsystem();
+  private final ArmSubsystem m_robotArm = new ArmSubsystem();
+  private final OldArmSubsystem m_oldRobotArm = new OldArmSubsystem();
 
-  private final AutonomousCommand m_autoCommand = new AutonomousCommand(m_robotArm, m_robotDrive);
+//  private final AutonomousCommand m_autoCommand = new AutonomousCommand(m_robotArm, m_robotDrive);
 
   private final XboxController controller = new XboxController(0);
 
@@ -53,45 +55,29 @@ public class RobotContainer {
                     m_robotDrive)
             .whenReleased(() -> m_robotDrive.setMaxOutput(0.1), m_robotDrive);
 
-    // Arm
-//    new JoystickButton(controller, XboxController.Axis.kRightTrigger.value)
-//            .whenPressed(
-//                    m_robotArm::up,
-//                    m_robotArm);
-//    new JoystickButton(controller, XboxController.Axis.kLeftTrigger.value)
-//            .whenPressed(
-//                    m_robotArm::down,
-//                    m_robotArm);
+//    new JoystickButton(controller, XboxController.Button.kA.value).
+//            whenPressed(
+//                    m_robotArm::updatePos,
+//              m_robotArm
+//            );
+
+    new JoystickButton(controller, XboxController.Button.kY.value).
+            whenPressed(
+                    m_robotArm::up,
+                    m_robotArm
+            );
 
     new JoystickButton(controller, XboxController.Button.kA.value).
             whenPressed(
-                    m_robotArm::updatePos,
-              m_robotArm
-            );
-
-      new JoystickButton(controller, XboxController.Button.kY.value).
-              whenPressed(
-                      () -> m_robotArm.setPos(10.7),
-                      m_robotArm
-              );
-
-    new JoystickButton(controller, XboxController.Button.kX.value).
-            whenPressed(
-                    () -> m_robotArm.set(0.5),
+                    m_robotArm::down,
                     m_robotArm
-            )
-            .whenReleased(
-                    m_robotArm::stop
             );
 
-    new JoystickButton(controller, XboxController.Button.kB.value).
-            whenPressed(
-                    () -> m_robotArm.set(-0.5),
-                    m_robotArm
-            )
-            .whenReleased(
-                    m_robotArm::stop
-            );
+//        new JoystickButton(controller, XboxController.Button.kA.value).
+//            whenPressed(
+//                    () -> ,
+//                    m_robotArm
+//            );
   }
 
   /**
@@ -99,8 +85,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+//  public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+//    return m_autoCommand;
+//  }
 }
