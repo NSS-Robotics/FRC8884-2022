@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a770e447-4c19-49ee-88fd-b3a36e641c87" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/IntakeSubsystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/commands/ArmCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/commands/AutonomousCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/AutonomousCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/ArmSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/ArmSubsystem.java" afterDir="false" />
-    </list>
+    <list default="true" id="a770e447-4c19-49ee-88fd-b3a36e641c87" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -177,7 +170,7 @@
       <workItem from="1646937721378" duration="11000" />
       <workItem from="1646942774918" duration="3080000" />
       <workItem from="1646955354350" duration="1223000" />
-      <workItem from="1646974082585" duration="333000" />
+      <workItem from="1646974082585" duration="723000" />
     </task>
     <servers />
   </component>
