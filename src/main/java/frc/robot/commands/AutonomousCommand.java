@@ -6,13 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.OldArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class AutonomousCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final OldArmSubsystem m_armSubsystem;
+  private final ArmSubsystem m_armSubsystem;
   private final DriveSubsystem m_driveSubsystem;
   protected Timer m_timer = new Timer();
 
@@ -20,7 +21,7 @@ public class AutonomousCommand extends CommandBase {
    * Creates a new ExampleCommand.
    *
    */
-  public AutonomousCommand(OldArmSubsystem armSubsystem, DriveSubsystem driveSubsystem) {
+  public AutonomousCommand(ArmSubsystem armSubsystem, DriveSubsystem driveSubsystem) {
     m_armSubsystem = armSubsystem;
     m_driveSubsystem = driveSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.

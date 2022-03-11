@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.OldArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -23,9 +24,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final ArmSubsystem m_robotArm = new ArmSubsystem();
-  private final OldArmSubsystem m_oldRobotArm = new OldArmSubsystem();
-
-//  private final AutonomousCommand m_autoCommand = new AutonomousCommand(m_robotArm, m_robotDrive);
+  private final IntakeSubsystem m_intake = new IntakeSubsystem();
 
   private final XboxController controller = new XboxController(0);
 
@@ -55,29 +54,35 @@ public class RobotContainer {
                     m_robotDrive)
             .whenReleased(() -> m_robotDrive.setMaxOutput(0.1), m_robotDrive);
 
-//    new JoystickButton(controller, XboxController.Button.kA.value).
-//            whenPressed(
-//                    m_robotArm::updatePos,
-//              m_robotArm
-//            );
-
+    // Arm
     new JoystickButton(controller, XboxController.Button.kY.value).
             whenPressed(
                     m_robotArm::up,
                     m_robotArm
             );
-
     new JoystickButton(controller, XboxController.Button.kA.value).
             whenPressed(
                     m_robotArm::down,
                     m_robotArm
             );
 
-//        new JoystickButton(controller, XboxController.Button.kA.value).
-//            whenPressed(
-//                    () -> ,
-//                    m_robotArm
-//            );
+    // Intake
+    new JoystickButton(controller, XboxController.Axis.kLeftTrigger.value).
+        whenPressed(
+                m_intake::forward,
+                m_intake
+        ).whenReleased(
+                m_intake::stop,
+                m_intake
+        );
+      new JoystickButton(controller, XboxController.Axis.kRightTrigger.value).
+              whenPressed(
+                      m_intake::backward,
+                      m_intake
+              ).whenReleased(
+                      m_intake::stop,
+                      m_intake
+              );
   }
 
   /**

@@ -31,10 +31,6 @@ public class ArmSubsystem extends SubsystemBase {
     public void periodic() {
         if (!shouldGo) return;
 
-        timer.start();
-
-        System.out.printf("Num ran: %s\n", numRan);
-
         numRan++;
 
         if (numRan < 50) {
