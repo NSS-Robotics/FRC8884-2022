@@ -33,7 +33,7 @@ public class RobotContainer {
             new RunCommand(
                     () ->
                             m_robotDrive.arcadeDrive(
-                                    controller.getLeftY(), controller.getRightX()),
+                                    controller.getLeftY(), -controller.getRightX()),
                     m_robotDrive));
   }
 
@@ -47,21 +47,34 @@ public class RobotContainer {
     // Drive
     new JoystickButton(controller, XboxController.Button.kRightBumper.value)
             .whenPressed(
-                    () -> m_robotDrive.setMaxOutput(0.9),
+                    () -> m_robotDrive.setMaxOutput(0.3),
                     m_robotDrive)
             .whenReleased(() -> m_robotDrive.setMaxOutput(0.1), m_robotDrive);
 
     // Arm
     new JoystickButton(controller, XboxController.Button.kY.value).
             whenPressed(
-                    m_robotArm::up,
+                    m_robotArm::toggle,
                     m_robotArm
+            );
+
+    // Intake
+    new JoystickButton(controller, XboxController.Button.kB.value).
+            whenPressed(
+                    m_intake::backward,
+                    m_intake
+            );
+    new JoystickButton(controller, XboxController.Button.kX.value).
+            whenPressed(
+                    m_intake::forward,
+                    m_intake
             );
     new JoystickButton(controller, XboxController.Button.kA.value).
             whenPressed(
-                    m_robotArm::down,
-                    m_robotArm
+                    m_intake::stop,
+                    m_intake
             );
+            
 
     // Intake
     new JoystickButton(controller, XboxController.Axis.kLeftTrigger.value).
@@ -72,6 +85,7 @@ public class RobotContainer {
                 m_intake::stop,
                 m_intake
         );
+
       new JoystickButton(controller, XboxController.Axis.kRightTrigger.value).
               whenPressed(
                       m_intake::backward,
