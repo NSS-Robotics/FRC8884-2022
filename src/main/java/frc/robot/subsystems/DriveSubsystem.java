@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,13 +21,15 @@ public class DriveSubsystem extends SubsystemBase {
 
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
 
+    SlewRateLimiter filter = new SlewRateLimiter(0.8);
+
     public DriveSubsystem() {
         // We need to invert one side of the drivetrain so that positive voltages
         // result in both sides moving forward. Depending on how your robot's
         // gearbox is constructed, you might have to invert the left side instead.
         this.m_left.setInverted(true);
 
-        setMaxOutput(0.1);
+        setMaxOutput(0.7);
     }
 
     public void setMaxOutput(double output) {
@@ -33,14 +37,22 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void arcadeDrive(double leftSpeed, double rightSpeed) {
-     m_drive.arcadeDrive(leftSpeed, rightSpeed);
+        System.out.println("SPEED: " + leftSpeed);
+
+        if (leftSpeed > -0.01 && leftSpeed < 0.01) {
+            return;
+        }
+
+        if (leftSpeed > 0) {
+            leftSpeed = leftSpeed + 0.25;
+        } else {
+            leftSpeed = leftSpeed - 0.25;
+        }
+
+        m_drive.arcadeDrive(filter.calculate(leftSpeed), rightSpeed);
     }
 
     public void stopMotor() {
         m_drive.stopMotor();
-    }
-
-    public void tankDrive(double leftSpeed, double rightSpeed) {
-        m_drive.tankDrive(leftSpeed, rightSpeed);
     }
 }

@@ -13,7 +13,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void forward() {
         m_motor.set(-1);
-        
     }
 
     public void backward() {
@@ -22,7 +21,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void stop() {
         m_motor.stopMotor();
-        
     }
 }
     
