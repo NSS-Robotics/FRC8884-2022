@@ -28,12 +28,7 @@ public class ArmSubsystem extends SubsystemBase {
         m_forwardLimit = m_motor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
         m_reverseLimit = m_motor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
     }
-//    public void down() {
-//        shouldGo = true;
-//        isUp = false;
-//
-//    }
-//
+
     public void up() {
         m_motor.set(motorUp);
     }
@@ -47,38 +42,7 @@ public class ArmSubsystem extends SubsystemBase {
         m_motor.stopMotor();
     }
 
-    public void toggle() {
-        if(flag == false){
-            flag = true;
-            shouldGo = true;
-            timer.start();
-            timer.reset();
-        }
+    public void up(double speed) {
+        this.m_motor.set(speed);
     }
-
-//    @Override
-//    public void periodic() {
-//        if (!shouldGo) return;
-//
-//        if (timer.get() < travelSeconds) {
-//            if (isUp) {
-//                m_motor.set(motorUp);
-//            } else {
-//                m_motor.set(motorDown);
-//            }
-//        }
-//        if (timer.get() >= travelSeconds) {
-//            if(!isUp){
-//                m_motor.set(-0.1);
-//            }else{
-//                m_motor.set(0);
-//            }
-//            isUp = !isUp;
-//            flag = false;
-//            shouldGo = true;
-//            timer.reset();
-//        }
-//
-//
-//    }
 }

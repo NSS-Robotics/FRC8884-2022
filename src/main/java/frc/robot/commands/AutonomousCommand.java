@@ -5,26 +5,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.UltrasonicSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class AutonomousCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ArmSubsystem m_armSubsystem;
   private final DriveSubsystem m_driveSubsystem;
+  private final IntakeSubsystem m_intakeSubsystem;
+  private final UltrasonicSubsystem m_ultrasonicSubsystem;
+
   protected Timer m_timer = new Timer();
 
   /**
    * Creates a new ExampleCommand.
    *
    */
-  public AutonomousCommand(ArmSubsystem armSubsystem, DriveSubsystem driveSubsystem) {
+  public AutonomousCommand(
+          ArmSubsystem armSubsystem, DriveSubsystem driveSubsystem,
+          IntakeSubsystem intakeSubsystem,
+          UltrasonicSubsystem ultrasonicSubsystem
+  ) {
     m_armSubsystem = armSubsystem;
     m_driveSubsystem = driveSubsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(armSubsystem, driveSubsystem);
+    m_intakeSubsystem = intakeSubsystem;
+    m_ultrasonicSubsystem = ultrasonicSubsystem;
+
+    addRequirements(armSubsystem, driveSubsystem, intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -37,21 +48,25 @@ public class AutonomousCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Drive for 2 seconds
     if (m_timer.get() < 2.0) {
-      m_driveSubsystem.arcadeDrive(0.5, 0.0);
-    } else {
-      m_driveSubsystem.stopMotor();
+      m_armSubsystem.up(0.3);
+    }
+
+    if (m_timer.get() > 2.0) {
+      m_intakeSubsystem.backward();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    this.m_intakeSubsystem.stop();
+    this.m_armSubsystem.stop();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_timer.get() > 2.0;
+    return m_timer.get() > 2.3;
   }
 }

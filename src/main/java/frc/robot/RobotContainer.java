@@ -7,14 +7,17 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AutonomousCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.UltrasonicSubsystem;
 
 import java.util.function.BooleanSupplier;
 
@@ -28,6 +31,9 @@ public class RobotContainer {
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final ArmSubsystem m_robotArm = new ArmSubsystem();
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
+    private final UltrasonicSubsystem m_ultrasonicSubsystem = new UltrasonicSubsystem();
+
+    private final AutonomousCommand m_autonomousCommand = new AutonomousCommand(m_robotArm, m_robotDrive, m_intake, m_ultrasonicSubsystem);
 
     private final XboxController controller = new XboxController(0);
 
@@ -51,6 +57,12 @@ public class RobotContainer {
                                         controller.getLeftY(), -controller.getRightX()*0.7),
                         m_robotDrive));
 
+        new JoystickButton(controller, XboxController.Button.kA.value).
+                whenPressed(
+                        m_robotDrive::stopMotor,
+                        m_robotDrive
+                );
+
         // Arm
         new Trigger(() -> controller.getLeftTriggerAxis() > 0).whenActive(
                 m_robotArm::up,
@@ -73,6 +85,10 @@ public class RobotContainer {
                         m_intake::forward,
                         m_intake
                 ).whenReleased(m_intake::stop, m_intake);
+    }
+
+    public Command getAutonomousCommand() {
+        return m_autonomousCommand;
     }
 
 }

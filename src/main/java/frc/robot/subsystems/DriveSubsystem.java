@@ -7,8 +7,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.opencv.core.Mat;
 
 public class DriveSubsystem extends SubsystemBase {
+    private boolean isStopped = false;
+
     // Left motors
     private final CANSparkMax m_frontLeft = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax m_rearLeft = new CANSparkMax(8, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -21,7 +24,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
 
-    SlewRateLimiter filter = new SlewRateLimiter(0.8);
+    SlewRateLimiter filter = new SlewRateLimiter(1.5);
 
     public DriveSubsystem() {
         // We need to invert one side of the drivetrain so that positive voltages
@@ -30,6 +33,7 @@ public class DriveSubsystem extends SubsystemBase {
         this.m_left.setInverted(true);
 
         setMaxOutput(0.7);
+
     }
 
     public void setMaxOutput(double output) {
@@ -37,22 +41,23 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void arcadeDrive(double leftSpeed, double rightSpeed) {
-        System.out.println("SPEED: " + leftSpeed);
-
-        if (leftSpeed > -0.01 && leftSpeed < 0.01) {
+        if (isStopped) {
             return;
         }
 
-        if (leftSpeed > 0) {
-            leftSpeed = leftSpeed + 0.25;
-        } else {
-            leftSpeed = leftSpeed - 0.25;
-        }
+        double speedLeft=leftSpeed;
+        double speedRight=rightSpeed;
+//        if()
 
         m_drive.arcadeDrive(filter.calculate(leftSpeed), rightSpeed);
     }
 
+    public void drive(double leftSpeed, double rightSpeed) {
+        m_drive.arcadeDrive(leftSpeed, rightSpeed);
+    }
+
     public void stopMotor() {
+        isStopped = true;
         m_drive.stopMotor();
     }
 }
