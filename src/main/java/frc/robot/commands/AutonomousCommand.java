@@ -32,12 +32,12 @@ public class AutonomousCommand extends SequentialCommandGroup {
         addRequirements(driveSubsystem, ultrasonicSubsystem, armSubsystem, intakeSubsystem);
 
         addCommands(
-//                new ParallelCommandGroup(
-//                        new InstantCommand(
-//                                () -> SmartDashboard.putNumber("ultrasonic", ultrasonicSubsystem.get()),
-//                                ultrasonicSubsystem
-//                        )
-//                ),
+                new ParallelCommandGroup(
+                        new InstantCommand(
+                                armSubsystem::stayUp,
+                                armSubsystem
+                        )
+                ),
 
 //                new FunctionalCommand(
 //                        () -> driveSubsystem.drive(0, 0),
@@ -58,11 +58,6 @@ public class AutonomousCommand extends SequentialCommandGroup {
                         () -> ultrasonicSubsystem.get() <= 30,
                         driveSubsystem,
                         ultrasonicSubsystem
-                ),
-
-                new RunTimedCommand(
-                        0.5,
-                        () -> armSubsystem.up(0.3)
                 ),
 
                 new RunTimedCommand(

@@ -59,15 +59,22 @@ public class RobotContainer {
                 );
 
         // Arm
-        new Trigger(() -> controller.getLeftTriggerAxis() > 0).whenActive(
-                () -> m_robotArm.up(controller.getLeftTriggerAxis()),
-                m_intake
-        ).whenInactive(m_robotArm::stop);
+        new JoystickButton(controller, XboxController.Button.kRightBumper.value).
+                whenPressed(
+                        m_robotArm::toggle,
+                        m_robotArm
+                );
 
-        new Trigger(() -> controller.getRightTriggerAxis() > 0).whenActive(
-                () -> m_robotArm.down(controller.getRightTriggerAxis()),
-                m_intake
-        ).whenInactive(m_robotArm::stop);
+//        new Trigger(() -> controller.getLeftTriggerAxis() > 0).whenActive(
+//                () -> m_robotArm.up(controller.getLeftTriggerAxis()),
+//                m_intake
+//        ).whenInactive(m_robotArm::stop);
+//
+//        new Trigger(() -> controller.getRightTriggerAxis() > 0).whenActive(
+//                () -> m_robotArm.down(controller.getRightTriggerAxis()),
+//                m_intake
+//        ).whenInactive(m_robotArm::stop);
+
 
         // Intake
         new JoystickButton(controller, XboxController.Button.kB.value).
