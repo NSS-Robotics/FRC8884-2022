@@ -5,12 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutonomousCommand;
@@ -18,8 +15,6 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.UltrasonicSubsystem;
-
-import java.util.function.BooleanSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -33,7 +28,7 @@ public class RobotContainer {
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
     private final UltrasonicSubsystem m_ultrasonicSubsystem = new UltrasonicSubsystem();
 
-    private final AutonomousCommand m_autonomousCommand = new AutonomousCommand(m_robotArm, m_robotDrive, m_intake, m_ultrasonicSubsystem);
+    private final AutonomousCommand m_autonomousCommand = new AutonomousCommand(m_robotDrive, m_ultrasonicSubsystem, m_robotArm, m_intake);
 
     private final XboxController controller = new XboxController(0);
 
@@ -59,28 +54,28 @@ public class RobotContainer {
 
         new JoystickButton(controller, XboxController.Button.kA.value).
                 whenPressed(
-                        m_robotDrive::stopMotor,
+                        m_robotDrive::toggleEnabled,
                         m_robotDrive
                 );
 
         // Arm
         new Trigger(() -> controller.getLeftTriggerAxis() > 0).whenActive(
-                m_robotArm::up,
+                () -> m_robotArm.up(controller.getLeftTriggerAxis()),
                 m_intake
         ).whenInactive(m_robotArm::stop);
 
         new Trigger(() -> controller.getRightTriggerAxis() > 0).whenActive(
-                m_robotArm::down,
+                () -> m_robotArm.down(controller.getRightTriggerAxis()),
                 m_intake
         ).whenInactive(m_robotArm::stop);
 
         // Intake
-        new JoystickButton(controller, XboxController.Button.kX.value).
+        new JoystickButton(controller, XboxController.Button.kB.value).
                 whenPressed(
                         m_intake::backward,
                         m_intake
                 ).whenReleased(m_intake::stop, m_intake);
-        new JoystickButton(controller, XboxController.Button.kB.value).
+        new JoystickButton(controller, XboxController.Button.kX.value).
                 whenPressed(
                         m_intake::forward,
                         m_intake

@@ -3,11 +3,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import org.opencv.core.Mat;
 
 public class DriveSubsystem extends SubsystemBase {
     private boolean isStopped = false;
@@ -32,8 +30,7 @@ public class DriveSubsystem extends SubsystemBase {
         // gearbox is constructed, you might have to invert the left side instead.
         this.m_left.setInverted(true);
 
-        setMaxOutput(0.7);
-
+        setMaxOutput(0.6);
     }
 
     public void setMaxOutput(double output) {
@@ -45,10 +42,6 @@ public class DriveSubsystem extends SubsystemBase {
             return;
         }
 
-        double speedLeft=leftSpeed;
-        double speedRight=rightSpeed;
-//        if()
-
         m_drive.arcadeDrive(filter.calculate(leftSpeed), rightSpeed);
     }
 
@@ -56,8 +49,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_drive.arcadeDrive(leftSpeed, rightSpeed);
     }
 
-    public void stopMotor() {
-        isStopped = true;
-        m_drive.stopMotor();
+    public void toggleEnabled() {
+        isStopped = !isStopped;
     }
 }

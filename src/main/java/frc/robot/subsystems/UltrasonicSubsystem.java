@@ -1,12 +1,17 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class UltrasonicSubsystem extends SubsystemBase {
-    Ultrasonic ultrasonic = new Ultrasonic(1, 2);
+    AnalogInput ultrasonic = new AnalogInput(0);
 
     public double get() {
-        return ultrasonic.getRangeMM();
+        double raw_value = ultrasonic.getValue();
+
+        double voltage_scale_factor = 5/ RobotController.getVoltage5V();
+
+        return raw_value * voltage_scale_factor * 0.125;
     }
 }
