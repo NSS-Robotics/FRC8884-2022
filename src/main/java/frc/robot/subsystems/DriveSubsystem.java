@@ -22,7 +22,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
 
-    SlewRateLimiter filter = new SlewRateLimiter(1.5);
+    SlewRateLimiter filter = new SlewRateLimiter(1.1);
 
     public DriveSubsystem() {
         // We need to invert one side of the drivetrain so that positive voltages
