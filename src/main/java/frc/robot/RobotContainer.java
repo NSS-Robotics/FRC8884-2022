@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.AutonomousCommandA;
 import frc.robot.commands.CenterRobotCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -32,7 +32,7 @@ public class RobotContainer {
 
     private final CenterRobotCommand m_centerRobotCommand = new CenterRobotCommand(m_ultrasonicSubsystem, m_robotDrive);
 
-    private final AutonomousCommand m_complexAuto = new AutonomousCommand(m_robotDrive, m_ultrasonicSubsystem, m_robotArm, m_intake, m_centerRobotCommand);
+    private final AutonomousCommandA m_complexAuto = new AutonomousCommandA(m_robotDrive, m_ultrasonicSubsystem, m_robotArm, m_intake, m_centerRobotCommand);
 
     private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 

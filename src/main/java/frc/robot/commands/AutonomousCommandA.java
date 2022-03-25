@@ -11,19 +11,17 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.UltrasonicSubsystem;
 
-import java.sql.Time;
-
 /**
  * An example command that uses an example subsystem.
  */
-public class AutonomousCommand extends SequentialCommandGroup {
+public class AutonomousCommandA extends SequentialCommandGroup {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
     /**
      * Creates a new ExampleCommand.
      *
      */
-    public AutonomousCommand(
+    public AutonomousCommandA(
             DriveSubsystem driveSubsystem,
             UltrasonicSubsystem ultrasonicSubsystem,
             ArmSubsystem armSubsystem,
@@ -42,23 +40,6 @@ public class AutonomousCommand extends SequentialCommandGroup {
                         )
                 ),
 
-                new FunctionalCommand(
-                        () -> {
-                            timer.reset();
-                            timer.start();
-
-                            driveSubsystem.drive(0, 0);
-                        },
-                        () -> driveSubsystem.drive(-0.5, 0),
-                        interrupt -> {
-                            timer.reset();
-                            driveSubsystem.drive(0, 0);
-                        },
-                        () -> ultrasonicSubsystem.getLeft() <= 30 || ultrasonicSubsystem.getRight() <= 30 || timer.get() >= 6,
-                        driveSubsystem,
-                        ultrasonicSubsystem
-                ),
-
                 centerRobotCommand,
 
                 new RunTimedCommand(
@@ -72,8 +53,23 @@ public class AutonomousCommand extends SequentialCommandGroup {
                         intakeSubsystem
                 ),
 
+                // Go back for 1 second
                 new RunTimedCommand(
-                        5,
+                        1,
+                        () -> driveSubsystem.drive(0.5, 0.2),
+                        driveSubsystem
+                ),
+
+                // Rotate for 0.5 seconds
+                new RunTimedCommand(
+                        0.5,
+                        () -> driveSubsystem.drive(0, 0.2),
+                        driveSubsystem
+                ),
+
+                // Go back for 2 seconds
+                new RunTimedCommand(
+                        2,
                         () -> driveSubsystem.arcadeDrive(0.5, 0),
                         driveSubsystem
                 )
