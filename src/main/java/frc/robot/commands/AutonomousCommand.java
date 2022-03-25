@@ -4,12 +4,14 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.UltrasonicSubsystem;
+
+import java.sql.Time;
 
 /**
  * An example command that uses an example subsystem.
@@ -25,9 +27,10 @@ public class AutonomousCommand extends SequentialCommandGroup {
             DriveSubsystem driveSubsystem,
             UltrasonicSubsystem ultrasonicSubsystem,
             ArmSubsystem armSubsystem,
-            IntakeSubsystem intakeSubsystem
+            IntakeSubsystem intakeSubsystem,
+            CenterRobotCommand centerRobotCommand
     ) {
-        System.out.println("In auto");
+        Timer timer = new Timer();
 
         addRequirements(driveSubsystem, ultrasonicSubsystem, armSubsystem, intakeSubsystem);
 
@@ -39,26 +42,24 @@ public class AutonomousCommand extends SequentialCommandGroup {
                         )
                 ),
 
-//                new FunctionalCommand(
-//                        () -> driveSubsystem.drive(0, 0),
-//                        () -> {
-//                            driveSubsystem.drive(0, 0);
-//                            SmartDashboard.putNumber("ultrasonic", ultrasonicSubsystem.get());
-//                        },
-//                        interrupt -> driveSubsystem.drive(0, 0),
-//                        () -> false,
-//                        driveSubsystem,
-//                        ultrasonicSubsystem
-//                )
-
                 new FunctionalCommand(
-                        () -> driveSubsystem.drive(0, 0),
+                        () -> {
+                            timer.reset();
+                            timer.start();
+
+                            driveSubsystem.drive(0, 0);
+                        },
                         () -> driveSubsystem.drive(-0.5, 0),
-                        interrupt -> driveSubsystem.drive(0, 0),
-                        () -> ultrasonicSubsystem.get() <= 30,
+                        interrupt -> {
+                            timer.reset();
+                            driveSubsystem.drive(0, 0);
+                        },
+                        () -> ultrasonicSubsystem.getLeft() <= 30 || ultrasonicSubsystem.getRight() <= 30 || timer.get() >= 6,
                         driveSubsystem,
                         ultrasonicSubsystem
                 ),
+
+                centerRobotCommand,
 
                 new RunTimedCommand(
                         0.3,

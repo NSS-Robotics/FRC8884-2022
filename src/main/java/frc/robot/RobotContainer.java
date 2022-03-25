@@ -6,11 +6,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.CenterRobotCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -28,13 +30,24 @@ public class RobotContainer {
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
     private final UltrasonicSubsystem m_ultrasonicSubsystem = new UltrasonicSubsystem();
 
-    private final AutonomousCommand m_autonomousCommand = new AutonomousCommand(m_robotDrive, m_ultrasonicSubsystem, m_robotArm, m_intake);
+    private final CenterRobotCommand m_centerRobotCommand = new CenterRobotCommand(m_ultrasonicSubsystem, m_robotDrive);
+
+    private final AutonomousCommand m_complexAuto = new AutonomousCommand(m_robotDrive, m_ultrasonicSubsystem, m_robotArm, m_intake, m_centerRobotCommand);
+
+    private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     private final XboxController controller = new XboxController(0);
 
     public RobotContainer() {
-        // Configure the button bindings
+        configureAuto();
         configureButtonBindings();
+    }
+
+    private void configureAuto() {
+//        m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
+        m_chooser.addOption("Complex Auto", m_complexAuto);
+
+        SmartDashboard.putData(m_chooser);
     }
 
     /**
@@ -65,17 +78,6 @@ public class RobotContainer {
                         m_robotArm
                 );
 
-//        new Trigger(() -> controller.getLeftTriggerAxis() > 0).whenActive(
-//                () -> m_robotArm.up(controller.getLeftTriggerAxis()),
-//                m_intake
-//        ).whenInactive(m_robotArm::stop);
-//
-//        new Trigger(() -> controller.getRightTriggerAxis() > 0).whenActive(
-//                () -> m_robotArm.down(controller.getRightTriggerAxis()),
-//                m_intake
-//        ).whenInactive(m_robotArm::stop);
-
-
         // Intake
         new JoystickButton(controller, XboxController.Button.kB.value).
                 whenPressed(
@@ -90,7 +92,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return m_autonomousCommand;
+        return m_chooser.getSelected();
     }
 
 }
