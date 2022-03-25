@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a770e447-4c19-49ee-88fd-b3a36e641c87" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/AutonomousCommandB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/commands/AutonomousCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/AutonomousCommandA.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,7 +185,7 @@
       <workItem from="1648060711200" duration="10520000" />
       <workItem from="1648141979622" duration="597000" />
       <workItem from="1648153833975" duration="4014000" />
-      <workItem from="1648232352815" duration="5848000" />
+      <workItem from="1648232352815" duration="6578000" />
     </task>
     <servers />
   </component>
