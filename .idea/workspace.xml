@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a770e447-4c19-49ee-88fd-b3a36e641c87" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/AutonomousCommandB.java" afterDir="false" />
+    <list default="true" id="a770e447-4c19-49ee-88fd-b3a36e641c87" name="Changes" comment="issac is in cadets">
+      <change afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/AutonomousCommandT.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/Robot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/commands/AutonomousCommandA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/AutonomousCommandA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/commands/CenterRobotCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/commands/CenterRobotCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/ArmSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/ArmSubsystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/IntakeSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frc/robot/subsystems/IntakeSubsystem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +73,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RecentsManager">
@@ -82,7 +88,7 @@
       <command value="gradle deploy" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.robot2 [build]">
+  <component name="RunManager" selected="Gradle.robot2 [deploy]">
     <configuration name="robot2 [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -148,8 +154,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.robot2 [build]" />
         <item itemvalue="Gradle.robot2 [deploy]" />
+        <item itemvalue="Gradle.robot2 [build]" />
         <item itemvalue="Gradle.robot2 [buildDependents]" />
       </list>
     </recent_temporary>
@@ -185,8 +191,16 @@
       <workItem from="1648060711200" duration="10520000" />
       <workItem from="1648141979622" duration="597000" />
       <workItem from="1648153833975" duration="4014000" />
-      <workItem from="1648232352815" duration="6578000" />
+      <workItem from="1648232352815" duration="16313000" />
     </task>
+    <task id="LOCAL-00001" summary="issac is in cadets">
+      <created>1648239885504</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1648239885504</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,7 +217,11 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="issac is in cadets" />
+    <option name="LAST_COMMIT_MESSAGE" value="issac is in cadets" />
+  </component>
   <component name="WpiLibVersionService">
-    <option name="lastChecked" value="20220325141914" />
+    <option name="lastChecked" value="20220325184327" />
   </component>
 </project>

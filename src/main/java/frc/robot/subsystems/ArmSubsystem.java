@@ -15,7 +15,7 @@ public class ArmSubsystem extends SubsystemBase {
     boolean flag = false;
 
     // Number of seconds the motor should travel for, in order to switch positions
-    private final double travelSeconds = 0.75;
+    private final double travelSeconds = 0.85;
     private final double motorUp = 0.28;
     private final double motorDown = -0.22;
     public ArmSubsystem() {
@@ -48,7 +48,7 @@ public class ArmSubsystem extends SubsystemBase {
         }
         if (timer.get() >= travelSeconds) {
             if(!isUp){
-                m_motor.set(0.03);
+                m_motor.set(0.04);
             }else{
                 m_motor.set(-0.09);
                 System.out.println("Going down");

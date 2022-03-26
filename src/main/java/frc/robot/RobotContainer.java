@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutonomousCommandA;
 import frc.robot.commands.CenterRobotCommand;
@@ -34,7 +36,7 @@ public class RobotContainer {
 
     private final AutonomousCommandA m_complexAuto = new AutonomousCommandA(m_robotDrive, m_ultrasonicSubsystem, m_robotArm, m_intake, m_centerRobotCommand);
 
-    private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+//    private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     private final XboxController controller = new XboxController(0);
 
@@ -45,9 +47,10 @@ public class RobotContainer {
 
     private void configureAuto() {
 //        m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
-        m_chooser.addOption("Complex Auto", m_complexAuto);
+//        m_chooser.addOption("Complex Auto", m_complexAuto);
+//        m_chooser.setDefaultOption("Auto A", m_complexAuto);
 
-        SmartDashboard.putData(m_chooser);
+//        SmartDashboard.putData(m_chooser);
     }
 
     /**
@@ -81,18 +84,29 @@ public class RobotContainer {
         // Intake
         new JoystickButton(controller, XboxController.Button.kB.value).
                 whenPressed(
-                        m_intake::backward,
+                        m_intake::shoot,
                         m_intake
                 ).whenReleased(m_intake::stop, m_intake);
         new JoystickButton(controller, XboxController.Button.kX.value).
                 whenPressed(
-                        m_intake::forward,
+                        m_intake::intake,
                         m_intake
                 ).whenReleased(m_intake::stop, m_intake);
+
+        // Ultrasonic
+        new JoystickButton(controller, XboxController.Button.kLeftBumper.value).
+                whenPressed(
+                        new SequentialCommandGroup(
+                                m_centerRobotCommand,
+                                new InstantCommand(
+                                        () -> controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.8)
+                                )
+                        )
+                ).whenReleased(m_centerRobotCommand::cancel);
     }
 
     public Command getAutonomousCommand() {
-        return m_chooser.getSelected();
+        return m_complexAuto;
     }
 
 }

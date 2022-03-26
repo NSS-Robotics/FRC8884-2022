@@ -8,6 +8,9 @@ import frc.robot.subsystems.UltrasonicSubsystem;
 public class CenterRobotCommand extends CommandBase {
     private final UltrasonicSubsystem m_ultrasonicSubsystem;
     private final DriveSubsystem m_driveSubsystem;
+    private double leftSpeed = 0;
+    private double rightSpeed = 0;
+    private boolean isDone = false;
 
     public CenterRobotCommand(
             UltrasonicSubsystem ultrasonicSubsystem,
@@ -16,12 +19,13 @@ public class CenterRobotCommand extends CommandBase {
         m_ultrasonicSubsystem = ultrasonicSubsystem;
         m_driveSubsystem = driveSubsystem;
 
-
         addRequirements(m_ultrasonicSubsystem, m_driveSubsystem);
     }
 
     @Override
     public void execute() {
+        m_driveSubsystem.drive(leftSpeed, rightSpeed);
+
         double left = m_ultrasonicSubsystem.getLeft();
         double right = m_ultrasonicSubsystem.getRight();
         double delta = Math.abs(left - right);
@@ -30,11 +34,21 @@ public class CenterRobotCommand extends CommandBase {
         SmartDashboard.putNumber("Ultrasonic Right", right);
         SmartDashboard.putNumber("Ultrasonic Delta", delta);
 
-        if (delta < 2.0) {
-            this.end(false);
+        if (delta < 0.4) {
+            isDone = true;
         }
 
         double highestVal = Math.max(left, right);
-        m_driveSubsystem.drive(0, highestVal == right ? 0.1 : -0.1);
+        rightSpeed = highestVal == right ? -0.3 : 0.3;
+    }
+
+    @Override
+    public void initialize() {
+        isDone = false;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return isDone;
     }
 }

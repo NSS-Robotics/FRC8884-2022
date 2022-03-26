@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -28,8 +29,6 @@ public class AutonomousCommandA extends SequentialCommandGroup {
             IntakeSubsystem intakeSubsystem,
             CenterRobotCommand centerRobotCommand
     ) {
-        Timer timer = new Timer();
-
         addRequirements(driveSubsystem, ultrasonicSubsystem, armSubsystem, intakeSubsystem);
 
         addCommands(
@@ -40,39 +39,27 @@ public class AutonomousCommandA extends SequentialCommandGroup {
                         )
                 ),
 
-                centerRobotCommand,
+                new SequentialCommandGroup(
+                        centerRobotCommand,
+                        new RunTimedCommand(
+                                0.3,
+                                intakeSubsystem::shoot,
+                                intakeSubsystem
+                        ),
 
-                new RunTimedCommand(
-                        0.3,
-                        intakeSubsystem::backward,
-                        intakeSubsystem
-                ),
-
-                new InstantCommand(
-                        intakeSubsystem::stop,
-                        intakeSubsystem
-                ),
-
-                // Go back for 1 second
-                new RunTimedCommand(
-                        1,
-                        () -> driveSubsystem.drive(0.5, 0.2),
-                        driveSubsystem
-                ),
-
-                // Rotate for 0.5 seconds
-                new RunTimedCommand(
-                        0.5,
-                        () -> driveSubsystem.drive(0, 0.2),
-                        driveSubsystem
-                ),
-
-                // Go back for 2 seconds
-                new RunTimedCommand(
-                        2,
-                        () -> driveSubsystem.arcadeDrive(0.5, 0),
-                        driveSubsystem
+                        new InstantCommand(
+                                intakeSubsystem::stop,
+                                intakeSubsystem
+                        ),
+                        new RunTimedCommand(
+                                4,
+                                () -> driveSubsystem.drive(0.65, 0.2),
+                                driveSubsystem
+                        )
                 )
+
+
+//                 Go back for 4 seconds
         );
     }
 }
