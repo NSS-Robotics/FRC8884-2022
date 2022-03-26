@@ -6,8 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -32,11 +30,10 @@ public class RobotContainer {
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
     private final UltrasonicSubsystem m_ultrasonicSubsystem = new UltrasonicSubsystem();
 
+    private final CenterRobotCommand m_centerRobotCommand_auto = new CenterRobotCommand(m_ultrasonicSubsystem, m_robotDrive);
+    private final AutonomousCommandA m_complexAuto = new AutonomousCommandA(m_robotDrive, m_ultrasonicSubsystem, m_robotArm, m_intake, m_centerRobotCommand_auto);
+
     private final CenterRobotCommand m_centerRobotCommand = new CenterRobotCommand(m_ultrasonicSubsystem, m_robotDrive);
-
-    private final AutonomousCommandA m_complexAuto = new AutonomousCommandA(m_robotDrive, m_ultrasonicSubsystem, m_robotArm, m_intake, m_centerRobotCommand);
-
-//    private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     private final XboxController controller = new XboxController(0);
 
