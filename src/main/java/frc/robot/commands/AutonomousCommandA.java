@@ -40,7 +40,6 @@ public class AutonomousCommandA extends SequentialCommandGroup {
                 ),
 
                 new SequentialCommandGroup(
-                        centerRobotCommand,
                         new RunTimedCommand(
                                 0.3,
                                 intakeSubsystem::shoot,

@@ -65,11 +65,11 @@ public class RobotContainer {
                                         controller.getLeftY(), -controller.getRightX()*0.7),
                         m_robotDrive));
 
-        new JoystickButton(controller, XboxController.Button.kA.value).
-                whenPressed(
-                        m_robotDrive::toggleEnabled,
-                        m_robotDrive
-                );
+        // new JoystickButton(controller, XboxController.Button.kA.value).
+        //         whenPressed(
+        //                 m_robotDrive::toggleEnabled,
+        //                 m_robotDrive
+        //         );
 
         // Arm
         new JoystickButton(controller, XboxController.Button.kRightBumper.value).
@@ -89,17 +89,16 @@ public class RobotContainer {
                         m_intake::intake,
                         m_intake
                 ).whenReleased(m_intake::stop, m_intake);
-
-        // Ultrasonic
-        new JoystickButton(controller, XboxController.Button.kLeftBumper.value).
-                whenPressed(
-                        new SequentialCommandGroup(
-                                m_centerRobotCommand,
-                                new InstantCommand(
-                                        () -> controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.8)
-                                )
-                        )
-                ).whenReleased(m_centerRobotCommand::cancel);
+         // Ultrasonic
+        // new JoystickButton(controller, XboxController.Button.kLeftBumper.value).
+        //         whenPressed(                        new SequentialCommandGroup(
+        //                         m_centerRobotCommand,
+        //                         new InstantCommand(
+        //                                 () -> controller.setRumble(GenericHID.RumbleType.kLeftRumble, 0.8)
+        //                                 ;
+        //                         )
+        //                 )
+        //         ).whenReleased(m_centerRobotCommand::cancel);
     }
 
     public Command getAutonomousCommand() {

@@ -11,10 +11,12 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void intake() {
         m_motor.set(-0.8);
+       System.out.println("I should intake");
     }
 
     public void shoot() {
         m_motor.set(0.8);
+        System.out.println("I should shoot");
     }
 
     public void stop() {

@@ -25,14 +25,14 @@ public class AutonomousCommandB extends SequentialCommandGroup {
      */
     public AutonomousCommandB(
             DriveSubsystem driveSubsystem,
-            UltrasonicSubsystem ultrasonicSubsystem,
+            UltrasonicSubsystem ultrasonicSubystem,
             ArmSubsystem armSubsystem,
             IntakeSubsystem intakeSubsystem,
             CenterRobotCommand centerRobotCommand
     ) {
         Timer timer = new Timer();
 
-        addRequirements(driveSubsystem, ultrasonicSubsystem, armSubsystem, intakeSubsystem);
+        addRequirements(driveSubsystem, ultrasonicSubystem, armSubsystem, intakeSubsystem);
 
         addCommands(
                 // Put stuff here
