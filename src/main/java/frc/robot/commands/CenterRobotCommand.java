@@ -39,12 +39,19 @@ public class CenterRobotCommand extends CommandBase {
         }
 
         double highestVal = Math.max(left, right);
-        rightSpeed = highestVal == right ? -0.3 : 0.3;
+        rightSpeed = highestVal == right ? 0.3 : -0.3;
     }
 
     @Override
     public void initialize() {
         isDone = false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        isDone = true;
+
+        super.end(interrupted);
     }
 
     @Override

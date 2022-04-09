@@ -51,7 +51,6 @@ public class ArmSubsystem extends SubsystemBase {
                 m_motor.set(0.04);
             }else{
                 m_motor.set(-0.06);
-                System.out.println("Going down");
             }
             isUp = !isUp;
             flag = false;

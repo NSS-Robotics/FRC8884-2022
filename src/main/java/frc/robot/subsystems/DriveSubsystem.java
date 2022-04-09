@@ -3,13 +3,14 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Moth.StickBruh;
 
 public class DriveSubsystem extends SubsystemBase {
-    private boolean isStopped = false;
-
     // Left motors
     private final CANSparkMax m_frontLeft = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax m_rearLeft = new CANSparkMax(8, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -30,7 +31,7 @@ public class DriveSubsystem extends SubsystemBase {
         // gearbox is constructed, you might have to invert the left side instead.
         this.m_left.setInverted(true);
 
-        setMaxOutput(0.6);
+        setMaxOutput(Constants.maxSpeed);
     }
 
     public void setMaxOutput(double output) {
@@ -38,18 +39,10 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void arcadeDrive(double leftSpeed, double rightSpeed) {
-        if (isStopped) {
-            return;
-        }
-
         m_drive.arcadeDrive(filter.calculate(leftSpeed), rightSpeed);
     }
 
     public void drive(double leftSpeed, double rightSpeed) {
         m_drive.arcadeDrive(leftSpeed, rightSpeed);
-    }
-
-    public void toggleEnabled() {
-        isStopped = !isStopped;
     }
 }

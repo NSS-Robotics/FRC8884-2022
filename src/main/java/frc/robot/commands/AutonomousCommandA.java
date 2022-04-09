@@ -32,14 +32,13 @@ public class AutonomousCommandA extends SequentialCommandGroup {
         addRequirements(driveSubsystem, ultrasonicSubsystem, armSubsystem, intakeSubsystem);
 
         addCommands(
-                new ParallelCommandGroup(
-                        new InstantCommand(
+                new SequentialCommandGroup(
+                        new RunTimedCommand(
+                                1,
                                 armSubsystem::stayUp,
                                 armSubsystem
-                        )
-                ),
+                        ),
 
-                new SequentialCommandGroup(
                         new RunTimedCommand(
                                 0.3,
                                 intakeSubsystem::shoot,
