@@ -10,7 +10,6 @@ public class ClimbSubsystem extends SubsystemBase {
     private final CANSparkMax m_motor = new CANSparkMax(12, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     boolean shouldGo = false;
-    boolean isClimb = false;
     Timer timer = new Timer();
     boolean flag = false;
 
@@ -29,6 +28,16 @@ public class ClimbSubsystem extends SubsystemBase {
         }
     }
 
+    public void raise() {
+        if (!flag) {
+            flag = true;
+            shouldGo = true;
+
+            timer.start();
+            timer.reset();
+        }
+    }
+
     @Override
     public void periodic() {
         SmartDashboard.putNumber("timer", timer.get());
@@ -36,37 +45,12 @@ public class ClimbSubsystem extends SubsystemBase {
 
         if (!shouldGo) return;
 
-        if (timer.get() < travelDownSeconds && isClimb) {
-            m_motor.set(motorDown);
-        }
-
-        if (timer.get() < travelUpSeconds && !isClimb) {
+        if (timer.get() < travelUpSeconds) {
             m_motor.set(motorUp);
-        }
-
-        if (timer.get() > travelDownSeconds && timer.get() < travelDownSeconds + 5 && isClimb) {
-            System.out.println("Here");
-            m_motor.set(-0.3);
-        }
-
-        if (timer.get() > travelDownSeconds + 5 && isClimb) {
-            isClimb = !isClimb;
+        } else {
             flag = false;
             shouldGo = false;
             timer.reset();
-
-            m_motor.stopMotor();
-        }
-
-        if (timer.get() >= travelUpSeconds && !isClimb) {
-            m_motor.set(0.04);
-
-            isClimb = !isClimb;
-            flag = false;
-            shouldGo = false;
-            timer.reset();
-
-            if (isClimb) m_motor.stopMotor();
         }
     }
 
