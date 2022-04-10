@@ -10,18 +10,18 @@ public class ClimbSubsystem extends SubsystemBase {
     private final CANSparkMax m_motor = new CANSparkMax(12, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     boolean shouldGo = false;
-    boolean isUp = false;
+    boolean isClimb = false;
     Timer timer = new Timer();
     boolean flag = false;
 
     // Number of seconds the motor should travel for, in order to switch positions
-    private final double travelDownSeconds = 6;
+    private final double travelDownSeconds = 4;
     private final double travelUpSeconds = 2;
     private final double motorUp = 0.35;
     private final double motorDown = -0.6;
 
     public void toggle() {
-        if(!flag){
+        if (!flag) {
             flag = true;
             shouldGo = true;
             timer.start();
@@ -36,36 +36,34 @@ public class ClimbSubsystem extends SubsystemBase {
 
         if (!shouldGo) return;
 
-        System.out.println("Running " + timer.get());
-
-        if (timer.get() < travelDownSeconds && isUp) {
-                m_motor.set(motorDown);
+        if (timer.get() < travelDownSeconds && isClimb) {
+            m_motor.set(motorDown);
         }
 
-        if (timer.get() < travelUpSeconds && !isUp) {
+        if (timer.get() < travelUpSeconds && !isClimb) {
             m_motor.set(motorUp);
         }
 
-        if (timer.get() >= travelDownSeconds && isUp) {
-            m_motor.set(-0.06);
-
-            isUp = !isUp;
-            flag = false;
-            shouldGo = false;
-            timer.reset();
-
-            m_motor.stopMotor();
+        if (timer.get() > travelDownSeconds && timer.get() < travelDownSeconds + 5 && isClimb) {
+            m_motor.set(-0.3);
         }
 
-        if (timer.get() >= travelUpSeconds && !isUp) {
+        if (timer.get() > travelDownSeconds + 5 && isClimb) {
+            isClimb = !isClimb;
+            flag = false;
+            shouldGo = false;
+            timer.reset();
+        }
+
+        if (timer.get() >= travelUpSeconds && !isClimb) {
             m_motor.set(0.04);
 
-            isUp = !isUp;
+            isClimb = !isClimb;
             flag = false;
             shouldGo = false;
             timer.reset();
 
-            if (isUp) m_motor.stopMotor();
+            if (isClimb) m_motor.stopMotor();
         }
     }
 
