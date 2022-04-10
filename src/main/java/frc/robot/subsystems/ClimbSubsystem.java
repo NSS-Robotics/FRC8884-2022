@@ -45,14 +45,17 @@ public class ClimbSubsystem extends SubsystemBase {
         }
 
         if (timer.get() > travelDownSeconds && timer.get() < travelDownSeconds + 5 && isClimb) {
+            System.out.println("Here");
             m_motor.set(-0.3);
         }
 
-        if (timer.get() > travelDownSeconds + 4 && isClimb) {
+        if (timer.get() > travelDownSeconds + 5 && isClimb) {
             isClimb = !isClimb;
             flag = false;
             shouldGo = false;
             timer.reset();
+
+            m_motor.stopMotor();
         }
 
         if (timer.get() >= travelUpSeconds && !isClimb) {
