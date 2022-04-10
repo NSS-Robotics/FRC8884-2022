@@ -16,7 +16,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     // Number of seconds the motor should travel for, in order to switch positions
     private final double travelDownSeconds = 6;
-    private final double travelUpSeconds = 1.8;
+    private final double travelUpSeconds = 2;
     private final double motorUp = 0.35;
     private final double motorDown = -0.6;
 
