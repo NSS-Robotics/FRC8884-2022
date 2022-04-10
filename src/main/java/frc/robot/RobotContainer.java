@@ -89,7 +89,7 @@ public class RobotContainer {
         // Climber
         new JoystickButton(controller, XboxController.Button.kY.value).
                 whenPressed(
-                        m_climbSubsystem::toggle,
+                        m_climbSubsystem::raise,
                         m_climbSubsystem
                 );
 
