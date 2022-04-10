@@ -15,7 +15,7 @@ public class ClimbSubsystem extends SubsystemBase {
     boolean flag = false;
 
     // Number of seconds the motor should travel for, in order to switch positions
-    private final double travelDownSeconds = 4;
+    private final double travelDownSeconds = 2; // bruh moment
     private final double travelUpSeconds = 2;
     private final double motorUp = 0.35;
     private final double motorDown = -0.6;
@@ -48,7 +48,7 @@ public class ClimbSubsystem extends SubsystemBase {
             m_motor.set(-0.3);
         }
 
-        if (timer.get() > travelDownSeconds + 5 && isClimb) {
+        if (timer.get() > travelDownSeconds + 4 && isClimb) {
             isClimb = !isClimb;
             flag = false;
             shouldGo = false;
